@@ -1,0 +1,31 @@
+.category__card {
+  height: 210px;
+  padding: 30px;
+  border: 1px solid var(--Medium-grey, #6d6e76);
+  img {
+    margin-bottom: 10px;
+  }
+  h1 {
+    text-align: left !important;
+    margin-bottom: 0 !important;
+    color: var(--Black, #232536);
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 40px; /* 142.857% */
+    letter-spacing: -1px;
+  }
+  p {
+    color: var(--Medium-grey, #6d6e76);
+    font-size: 16px;
+    line-height: 28px; /* 175% */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.category__card:hover {
+  background: var(--Yellow, #ffd050);
+}

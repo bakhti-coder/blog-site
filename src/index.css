@@ -1,0 +1,115 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style-type: none;
+}
+
+.input {
+  display: block;
+  /* margin-bottom: 15px; */
+  padding: 15px 20px;
+  border-radius: 2px;
+  border: 2px solid rgba(109, 110, 118, 0.5);
+  color: #232536;
+  font-size: 20px;
+  font-weight: 500;
+  width: 100%;
+}
+
+.auth__button {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  background-color: #ffd050;
+  padding: 16px 200px;
+  color: var(--Black, #232536);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+button:disabled,
+button[disabled] {
+  background-color: #cccccc;
+  color: #666666;
+}
+.error-message {
+  color: red;
+  font-size: 18px;
+}
+.search__input {
+  margin: 50px 0;
+  padding: 18px;
+  font-size: 20px;
+  outline: none;
+  border-radius: 2px;
+  border: 1px solid rgba(109, 110, 118, 0.5);
+  width: 100%;
+}
+.button__util {
+  border: none;
+  cursor: pointer;
+  background: var(--Yellow, #ffd050);
+  padding: 14px 42px;
+  color: var(--Black, #232536);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px;
+}
+img {
+  object-fit: cover !important;
+}
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 150ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.7
+  ); /* Orqa fonni xohlagan rangga o'zgartiring */
+  backdrop-filter: blur(5px); /* Blur efekti */
+  z-index: 9999; /* Modalni orqasiga qo'yib chiqish */
+}
+
+.modal__input {
+  margin-bottom: 15px;
+  padding: 7px 15px;
+  width: 100%;
+  font-size: 18px;
+  outline: none;
+  display: block;
+}
