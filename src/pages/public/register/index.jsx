@@ -43,7 +43,6 @@ const RegisterPage = () => {
   });
 
   const onSubmit = async (data) => {
-    const values = data;
     const { first_name, last_name, password, username } = data;
     try {
       setLoading(true);

@@ -32,11 +32,11 @@ li {
 }
 
 .auth__button {
+  padding: 16px 200px;
   width: 100%;
   border: none;
   cursor: pointer;
   background-color: #ffd050;
-  padding: 16px 200px;
   color: var(--Black, #232536);
   font-size: 20px;
   font-weight: 700;
@@ -112,4 +112,11 @@ img {
   font-size: 18px;
   outline: none;
   display: block;
+}
+
+@media screen and (max-width: 500px) {
+  .auth__button {
+    width: auto !important;
+    padding: 16px  30px;
+  }
 }

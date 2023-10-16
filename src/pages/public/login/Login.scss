@@ -18,3 +18,9 @@
     margin-bottom: 25px;
   }
 }
+
+@media screen and (max-width: 740px) {
+  .login__container {
+    width: 100%;
+  }
+}

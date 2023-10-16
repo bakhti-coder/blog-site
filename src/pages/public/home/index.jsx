@@ -4,7 +4,6 @@ import { Parallax } from "react-parallax";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, A11y } from "swiper/modules";
 
-
 import useFetch from "../../../hooks/useFetch";
 import BlogCard from "../../../components/card/blog/BlogCard";
 import Loading from "../../../components/shared/Loading";
