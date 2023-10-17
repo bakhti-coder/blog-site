@@ -24,7 +24,7 @@ const LoginPage = () => {
       password: yup
         .string()
         .required("Please fill password!")
-        .min(7, "Password min length 7")
+        .min(5, "Password min length 5")
         .max(14, "Password max length 14"),
     })
     .required();
