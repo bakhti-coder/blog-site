@@ -40,9 +40,14 @@ const Header = () => {
             <NavLink onClick={() => setIsOpen(false)} to={"/about"}>
               About Us
             </NavLink>
-            <NavLink onClick={() => setIsOpen(false)} to={"/register"}>
-              Register
-            </NavLink>
+            {isLogin ? (
+              ""
+            ) : (
+              <NavLink onClick={() => setIsOpen(false)} to={"/register"}>
+                Register
+              </NavLink>
+            )}
+
             {isLogin ? (
               <Link
                 onClick={() => setIsOpen(false)}

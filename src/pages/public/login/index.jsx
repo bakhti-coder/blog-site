@@ -47,6 +47,9 @@ const LoginPage = () => {
       setRole(role);
       setIsLogin(true);
       Cookies.set(TOKEN, token);
+
+      request.defaults.headers.Authorization = "Bearer " + token;
+
       localStorage.setItem(ROLE, role);
       if (role === "user") {
         navigate("/my-posts");
