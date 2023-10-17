@@ -3,6 +3,7 @@ import useFetch from "../../../hooks/useFetch";
 
 import "./AllPosts.scss";
 import { ENDPOINTIMG } from "../../../constants";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const SinglePosts = () => {
   const { id } = useParams();
@@ -17,14 +18,15 @@ const SinglePosts = () => {
   return (
     <section>
       <div className="container single__blog">
-        <img
+        <LazyLoadImage
+          effect="blur"
           className="single__blog__img"
           src={`${ENDPOINTIMG}${resultImg}`}
           alt={singleBlog?.title}
         />
         <div className="single__blog__data">
           <div className="single__blog__data__user">
-            <img src="/images/user.svg" alt="user" />
+            <LazyLoadImage effect="blur" src="/images/user.svg" alt="user" />
             <div className="single__blog__data__user__desc">
               <p>{`${singleBlog?.user?.first_name} ${singleBlog?.user?.last_name}`}</p>
               <span>Posted on {singleBlog?.createdAt?.split("T")[0]}</span>

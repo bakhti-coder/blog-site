@@ -54,8 +54,6 @@ const LoginPage = () => {
         navigate("/dashboard");
       }
       toast.success("Succses", { autoClose: 1000 });
-    } catch (error) {
-      toast.error(error.response.data);
     } finally {
       setLoading(false);
     }

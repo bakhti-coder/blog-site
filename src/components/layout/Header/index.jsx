@@ -1,8 +1,11 @@
 import { useContext, useState } from "react";
 import Hamburger from "hamburger-react";
 import { Link, NavLink } from "react-router-dom";
-import "./Header.scss";
+
 import { AuthContext } from "../../../context/AuthContext";
+
+import "./Header.scss";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,7 +22,11 @@ const Header = () => {
               </Link>
             ) : (
               <Link to={"/"}>
-                <img src="/images/Logo (1).svg" alt="logo" />
+                <LazyLoadImage
+                  effect="blur"
+                  src="/images/Logo (1).svg"
+                  alt="logo"
+                />
               </Link>
             )}
           </div>

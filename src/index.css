@@ -32,7 +32,7 @@ li {
 }
 
 .auth__button {
-  padding: 16px 200px;
+  padding: 16px 30px;
   width: 100%;
   border: none;
   cursor: pointer;
@@ -47,7 +47,16 @@ button:disabled,
 button[disabled] {
   background-color: #cccccc;
   color: #666666;
+  cursor: not-allowed;
 }
+
+.send__disabled:disabled,
+.send__disabled[disabled] {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
 .error-message {
   color: red;
   font-size: 18px;
@@ -113,10 +122,30 @@ img {
   outline: none;
   display: block;
 }
+.send__button {
+  margin-top: 15px;
+  border: none;
+  background-color: #3498db;
+  color: #000;
+  font-weight: 500;
+  padding: 10px 30px;
+  border-radius: 4px;
+  width: 100%;
+}
 
 @media screen and (max-width: 500px) {
   .auth__button {
-    width: auto !important;
-    padding: 16px  30px;
+    width: 100% !important;
+    padding: 16px 30px;
   }
+}
+
+@media screen and (max-width: 1200px) {
+  .container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+.pagination {
+  width: 100% !important;
 }

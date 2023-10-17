@@ -48,7 +48,7 @@ const AllPostsPage = () => {
         ) : (
           allPost?.map((post) => <AllPostsCard key={post?._id} {...post} />)
         )}
-        <div style={{ margin: "auto" }}>
+        <div>
           {allPage !== 1 ? (
             <ReactPaginate
               breakLabel="..."
@@ -64,7 +64,7 @@ const AllPostsPage = () => {
               breakLinkClassName="page-link"
               containerClassName="pagination"
               activeClassName="active"
-              pageRangeDisplayed={3}
+              pageRangeDisplayed={2}
               renderOnZeroPageCount={null}
               pageCount={allPage}
               onPageChange={handlePageClick}

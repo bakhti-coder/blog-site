@@ -32,13 +32,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route
             path="/account"
-            element={
-              isLogin && role === "user" ? (
-                <AccountPage />
-              ) : (
-                <Navigate to={"/login"} />
-              )
-            }
+            element={isLogin ? <AccountPage /> : <Navigate to={"/login"} />}
           />
           <Route
             path="/my-posts"

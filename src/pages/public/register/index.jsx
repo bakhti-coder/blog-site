@@ -6,33 +6,32 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import Cookies from "js-cookie";
 
+import { AuthContext } from "../../../context/AuthContext";
 import { ROLE, TOKEN } from "../../../constants";
 import request from "../../../server";
 
-import { AuthContext } from "../../../context/AuthContext";
 import "./Register.scss";
 
+const schema = yup
+  .object({
+    first_name: yup.string().required("Please fill first name!"),
+    last_name: yup.string().required("Please fill last name!"),
+    username: yup.string().required("Please fill username!"),
+    password: yup
+      .string()
+      .required("Please fill password!")
+      .min(7, "Password min length 7")
+      .max(14, "Password max length 14"),
+    confirm_password: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
+  })
+  .required();
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { setIsLogin, setRole } = useContext(AuthContext);
 
   const [loading, setLoading] = useState(false);
-
-  const schema = yup
-    .object({
-      first_name: yup.string().required("Please fill first name!"),
-      last_name: yup.string().required("Please fill last name!"),
-      username: yup.string().required("Please fill username!"),
-      password: yup
-        .string()
-        .required("Please fill password!")
-        .min(7, "Password min length 7")
-        .max(14, "Password max length 14"),
-      confirm_password: yup
-        .string()
-        .oneOf([yup.ref("password"), null], "Passwords must match"),
-    })
-    .required();
 
   const {
     register,
@@ -64,8 +63,6 @@ const RegisterPage = () => {
         navigate("/dashboard");
       }
       toast.success("Succses", { autoClose: 1000 });
-    } catch (error) {
-      toast.error(error.response.data);
     } finally {
       setLoading(false);
     }

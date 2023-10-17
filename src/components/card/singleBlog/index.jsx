@@ -1,22 +1,28 @@
 import { Link } from "react-router-dom";
 import "./SingleBlogCrad.scss";
-const AllCategoryCard = ({ _id, name, description, photo, createdAt }) => {
+import PropTypes from "prop-types";
+
+import { LazyLoadImage } from "react-lazy-load-image-component";
+const AllCategoryCard = ({ _id, name, description }) => {
   return (
     <Link to={`/category/${_id}`}>
       <div className="allCtgr">
-        <img src="/images/AllCtgr.png" alt="img" />
+        <LazyLoadImage effect="blur" src="/images/AllCtgr.png" alt="img" />
         <div className="allCtgr__right">
-          <h5>Business</h5>
-          <h2>Top 6 free website mockup tools 2022</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Non
-            blandit massa enim nec.
-          </p>
+          <h5>{name}</h5>
+          <h2>{name}</h2>
+          <p>{description}</p>
         </div>
       </div>
     </Link>
   );
+};
+
+AllCategoryCard.propTypes = {
+  _id: PropTypes.string,
+  photo: PropTypes.object,
+  description: PropTypes.string,
+  name: PropTypes.string,
 };
 
 export default AllCategoryCard;

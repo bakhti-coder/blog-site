@@ -14,6 +14,11 @@
     font-weight: 700;
     line-height: 40px; /* 142.857% */
     letter-spacing: -1px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   p {
     color: var(--Medium-grey, #6d6e76);

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { ENDPOINTIMG } from "../../../constants";
 
 import "./AllPostCard.scss";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const AllPostsCard = ({ _id, title, category, description, photo }) => {
   const imgFormate = photo?.name?.split(".")[1];
@@ -13,8 +14,9 @@ const AllPostsCard = ({ _id, title, category, description, photo }) => {
   return (
     <Link to={`/all-posts/${_id}`}>
       <div className="allCtgr">
-        <img
+        <LazyLoadImage
           style={{ objectFit: "cover" }}
+          effect="blur"
           src={`${ENDPOINTIMG}${resultImg}`}
           alt="img"
         />
