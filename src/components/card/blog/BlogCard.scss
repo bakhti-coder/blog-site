@@ -1,4 +1,5 @@
 .blog__card {
+  max-width: 320px;
   &__date {
     padding: 20px 0 14px 0;
     color: var(--Dark-Grey, #4c4c4c);
@@ -17,12 +18,17 @@
     font-weight: 700;
     line-height: 40px; /* 142.857% */
     letter-spacing: -1px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   &__description {
     color: var(--Black, #232536);
     line-height: 28px; /* 175% */
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

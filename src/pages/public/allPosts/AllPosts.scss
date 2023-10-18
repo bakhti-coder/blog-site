@@ -1,9 +1,10 @@
 .single__blog {
-  padding-top: 80px ;
+  padding-top: 80px;
+  width: 100%;
   &__img {
+    width: 100%;
     margin-bottom: 50px;
     height: 480px;
-    width: 100%;
     object-fit: cover;
   }
   &__data {
@@ -61,5 +62,13 @@
     font-weight: 700;
     line-height: 64px; /* 133.333% */
     letter-spacing: -2px;
+  }
+}
+// .lazy-load-image-background.blur.lazy-load-image-loaded {
+//   width: 100% !important;
+// }
+@media screen and (max-width: 600px) {
+  .single__blog {
+    margin-top: 40px !important;
   }
 }

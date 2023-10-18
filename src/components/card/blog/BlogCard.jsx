@@ -20,10 +20,10 @@ const BlogCard = ({
       <div className="blog__card">
         <LazyLoadImage
           src={`${ENDPOINTIMG}${resultImg}`}
-          alt="ok"
+          alt={title}
           effect="blur"
           height={200}
-          width={300}
+          width={310}
         />
 
         <p className="blog__card__date">

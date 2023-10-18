@@ -19,6 +19,7 @@ footer {
       }
     }
     &__right {
+      display: flex;
       img {
         cursor: pointer;
         margin-left: 25px;
