@@ -116,13 +116,9 @@ const HomePage = () => {
                 </div>
               </div>
             ) : (
-              lastones.map((post, idx) => (
+              lastones.map((post) => (
                 <SwiperSlide key={post?.id}>
-                  <BlogCard
-                    data-aos="fade-up"
-                    data-aos-delay={idx * 100}
-                    {...post}
-                  />
+                  <BlogCard {...post} />
                 </SwiperSlide>
               ))
             )}
@@ -158,7 +154,7 @@ const HomePage = () => {
               <Loading />
             ) : (
               categoryData?.map((category) => (
-                <SwiperSlide data-aos="fade-up" key={category?.id}>
+                <SwiperSlide key={category?.id}>
                   <CategoryCard {...category} />
                 </SwiperSlide>
               ))

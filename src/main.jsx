@@ -3,7 +3,6 @@ import { ToastContainer } from "react-toastify";
 
 import App from "./App.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
-import AosProvider from "./components/aos.jsx";
 
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,9 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
   <AuthContextProvider>
     <ToastContainer />
-    <AosProvider>
-      <App />
-    </AosProvider>
+    <App />
   </AuthContextProvider>
   // </React.StrictMode>
 );
