@@ -14,12 +14,22 @@ const AllPostsCard = ({ _id, title, category, description, photo }) => {
   return (
     <Link to={`/all-posts/${_id}`}>
       <div className="allCtgr">
-        <LazyLoadImage
-          style={{ objectFit: "cover" }}
-          effect="blur"
-          src={`${ENDPOINTIMG}${resultImg}`}
-          alt="img"
-        />
+        {resultImg ? (
+          <LazyLoadImage
+            style={{ objectFit: "cover" }}
+            effect="blur"
+            src={`${ENDPOINTIMG}${resultImg}`}
+            alt="img"
+          />
+        ) : (
+          <LazyLoadImage
+            style={{ objectFit: "cover" }}
+            effect="blur"
+            src={`${ENDPOINTIMG}${resultImg}`}
+            alt="img"
+          />
+        )}
+
         <div className="allCtgr__right">
           <h5>{category?.name}</h5>
           <h2>{title}</h2>

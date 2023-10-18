@@ -34,7 +34,7 @@ const SinglePosts = () => {
             <div className="single__blog__data">
               <div className="single__blog__data__user">
                 {singleBlog?.user?.photo ? (
-                  <img
+                  <LazyLoadImage
                     src={`${ENDPOINTIMG}${singleBlog?.user?.photo}`}
                     alt="user"
                     style={{ borderRadius: "50%" }}
