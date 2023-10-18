@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
@@ -7,6 +7,7 @@ import AllCategoryCard from "../../../components/card/singleBlog";
 import Loading from "../../../components/shared/Loading";
 
 import "./Category.scss";
+import PageTransitionProvider from "../../../components/page-transition";
 
 const CategoryPage = () => {
   const [search, setSearch] = useState("");
@@ -39,7 +40,7 @@ const CategoryPage = () => {
   }, [dataCategory]);
 
   return (
-    <Fragment>
+    <PageTransitionProvider>
       <section>
         <div className="conatiner single__category">
           <div className="single__category__item">
@@ -98,7 +99,7 @@ const CategoryPage = () => {
         <div></div>
         {/* {pagination} */}
       </section>
-    </Fragment>
+    </PageTransitionProvider>
   );
 };
 

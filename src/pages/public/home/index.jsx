@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Parallax } from "react-parallax";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,6 +10,8 @@ import Loading from "../../../components/shared/Loading";
 import CategoryCard from "../../../components/card/category";
 
 import "./Home.scss";
+import PageTransitionProvider from "../../../components/page-transition";
+import TextAnimation from "../../../components/text-animation";
 
 const HomePage = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -39,7 +41,7 @@ const HomePage = () => {
   }, [categories]);
 
   return (
-    <Fragment>
+    <PageTransitionProvider>
       <section>
         <div className="home">
           <Parallax
@@ -53,16 +55,24 @@ const HomePage = () => {
                 <Loading />
               ) : (
                 <div className="home__container__item">
-                  <h4>
-                    Posted on <span>startup</span>
-                  </h4>
-                  <h1>{lastone.title}</h1>
-                  <p className="home__name">
-                    By
-                    <span>{` ${lastone.user?.first_name}, ${lastone.user?.last_name}`}</span>{" "}
-                    | {lastone?.createdAt?.split("T")[0]}
-                  </p>
-                  <p className="home__desc">{lastone.description}</p>
+                  <TextAnimation>
+                    <h4>
+                      Posted on <span>startup</span>
+                    </h4>
+                  </TextAnimation>
+                  <TextAnimation>
+                    <h1>{lastone.title}</h1>
+                  </TextAnimation>
+                  <TextAnimation>
+                    <p className="home__name">
+                      By
+                      <span>{` ${lastone.user?.first_name}, ${lastone.user?.last_name}`}</span>{" "}
+                      | {lastone?.createdAt?.split("T")[0]}
+                    </p>
+                  </TextAnimation>
+                  <TextAnimation>
+                    <p className="home__desc">{lastone?.description}</p>
+                  </TextAnimation>
                   <Link
                     to={`/all-posts/${lastone._id}`}
                     className="post__single"
@@ -106,9 +116,13 @@ const HomePage = () => {
                 </div>
               </div>
             ) : (
-              lastones.map((post) => (
+              lastones.map((post, idx) => (
                 <SwiperSlide key={post?.id}>
-                  <BlogCard {...post} />
+                  <BlogCard
+                    data-aos="fade-up"
+                    data-aos-delay={idx * 100}
+                    {...post}
+                  />
                 </SwiperSlide>
               ))
             )}
@@ -144,7 +158,7 @@ const HomePage = () => {
               <Loading />
             ) : (
               categoryData?.map((category) => (
-                <SwiperSlide key={category?.id}>
+                <SwiperSlide data-aos="fade-up" key={category?.id}>
                   <CategoryCard {...category} />
                 </SwiperSlide>
               ))
@@ -152,7 +166,7 @@ const HomePage = () => {
           </Swiper>
         </div>
       </section>
-    </Fragment>
+    </PageTransitionProvider>
   );
 };
 

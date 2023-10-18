@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactModal from "react-modal";
@@ -14,6 +14,7 @@ import Loading from "../../../components/shared/Loading";
 
 import "./MyPosts.scss";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import PageTransitionProvider from "../../../components/page-transition";
 
 const schema = yup
   .object({
@@ -163,7 +164,7 @@ const MyPostsPage = () => {
   };
 
   return (
-    <Fragment>
+    <PageTransitionProvider>
       <section>
         <ReactModal
           isOpen={modalIsOpen}
@@ -311,7 +312,7 @@ const MyPostsPage = () => {
           )}
         </div>
       </section>
-    </Fragment>
+    </PageTransitionProvider>
   );
 };
 

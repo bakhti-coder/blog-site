@@ -5,17 +5,18 @@ import Cookies from "js-cookie";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import * as yup from "yup";
 
 import { AuthContext } from "../../context/AuthContext";
 import { ROLE, TOKEN } from "../../constants";
-
-import "./Account.scss";
-import "react-tabs/style/react-tabs.css";
+import getImage from "../../utils/Image";
 import Loading from "../../components/shared/Loading";
 import request from "../../server";
-import getImage from "../../utils/Image";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import "react-tabs/style/react-tabs.css";
+import "./Account.scss";
+import PageTransitionProvider from "../../components/page-transition";
 
 const schema = yup
   .object({
@@ -120,150 +121,204 @@ const AccountPage = () => {
   };
 
   return (
-    <section>
-      <div className="container" style={{ padding: "150px 0 100px 0" }}>
-        {loading ? (
-          <Loading />
-        ) : (
-          <Tabs className="react-tabs">
-            <TabList className="react-tabs__tab-list">
-              <Tab className="react-tabs__tab">Profile</Tab>
-              <Tab className="react-tabs__tab">Password Change</Tab>
-            </TabList>
+    <PageTransitionProvider>
+      <section>
+        <div className="container" style={{ padding: "150px 0 100px 0" }}>
+          {loading ? (
+            <Loading />
+          ) : (
+            <Tabs className="react-tabs">
+              <TabList className="react-tabs__tab-list">
+                <Tab className="react-tabs__tab">Profile</Tab>
+                <Tab className="react-tabs__tab">Password Change</Tab>
+              </TabList>
 
-            <TabPanel className="react-tabs__tab-panel">
-              <div className="profile__settings">
-                <div className="profile__settings__file">
-                  <label htmlFor="fileInput" className="file-label">
-                    {photo ? "Change photo" : "Upload photo "}
-                  </label>
-                  <input
-                    className="file__upload"
-                    type="file"
-                    id="fileInput"
-                    accept=".jpg, .jpeg, .png, .gif"
-                    onChange={handleFileChange}
-                    style={{ display: "none" }}
-                  />
-                  {photoLoading ? (
-                    <LazyLoadImage
-                      effect="blur"
-                      className="file__img"
-                      src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif?20170503175831"
-                      alt="gif"
+              <TabPanel className="react-tabs__tab-panel">
+                <div className="profile__settings">
+                  <div className="profile__settings__file">
+                    <label htmlFor="fileInput" className="file-label">
+                      {photo ? "Change photo" : "Upload photo "}
+                    </label>
+                    <input
+                      className="file__upload"
+                      type="file"
+                      id="fileInput"
+                      accept=".jpg, .jpeg, .png, .gif"
+                      onChange={handleFileChange}
+                      style={{ display: "none" }}
                     />
-                  ) : photo ? (
-                    <LazyLoadImage
-                      effect="blur"
-                      className="file__img"
-                      src={getImage(photo)}
-                      alt="user"
-                    />
-                  ) : (
-                    <LazyLoadImage
-                      effect="blur"
-                      className="file__img"
-                      src="/images/noUserImage.png"
-                      alt="NoPhoto"
-                    />
-                  )}
+                    {photoLoading ? (
+                      <LazyLoadImage
+                        effect="blur"
+                        className="file__img"
+                        src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Loading_2.gif?20170503175831"
+                        alt="gif"
+                      />
+                    ) : photo ? (
+                      <LazyLoadImage
+                        effect="blur"
+                        className="file__img"
+                        src={getImage(photo)}
+                        alt="user"
+                      />
+                    ) : (
+                      <LazyLoadImage
+                        effect="blur"
+                        className="file__img"
+                        src="/images/noUserImage.png"
+                        alt="NoPhoto"
+                      />
+                    )}
+                  </div>
+
+                  <form
+                    className="profile__settings__form"
+                    onSubmit={editUserData}
+                  >
+                    <div>
+                      <label className="profile__settings__form__title">
+                        First name
+                      </label>
+                      <input
+                        type="text"
+                        name="first_name"
+                        defaultValue={user?.first_name}
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div>
+                      <label className="profile__settings__form__title">
+                        Last name
+                      </label>
+                      <input
+                        name="last_name"
+                        defaultValue={user?.last_name}
+                        type="text"
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div>
+                      <label className="profile__settings__form__title">
+                        Username
+                      </label>
+                      <input
+                        type="text"
+                        name="username"
+                        defaultValue={user?.username}
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div>
+                      <label className="profile__settings__form__title">
+                        Phone number
+                      </label>
+                      <input
+                        type="text"
+                        name="phoneNumber"
+                        defaultValue={user?.phoneNumber}
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div>
+                      <label className="profile__settings__form__title">
+                        Birthday
+                      </label>
+                      <input
+                        type="date"
+                        name="birthday"
+                        onChange={(e) => setDateUser(e.target.value)}
+                        value="2007-10-21"
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div>
+                      <label className="profile__settings__form__title">
+                        Email
+                      </label>
+                      <input
+                        name="email"
+                        defaultValue={user?.email}
+                        type="email"
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div>
+                      <label className="profile__settings__form__title">
+                        Info
+                      </label>
+                      <textarea
+                        name="info"
+                        defaultValue={user?.info}
+                        type="text"
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div>
+                      <label className="profile__settings__form__title">
+                        Address
+                      </label>
+                      <input
+                        name="address"
+                        defaultValue={user?.address}
+                        type="text"
+                        className="profile__settings__form__input"
+                      />
+                    </div>
+                    <div className="send">
+                      {editLoading ? (
+                        <button
+                          disabled
+                          className="send__button send__disabled"
+                        >
+                          Loading...
+                        </button>
+                      ) : (
+                        <button type="submit" className="send__button">
+                          Save
+                        </button>
+                      )}
+                    </div>
+                  </form>
                 </div>
-
-                <form
-                  className="profile__settings__form"
-                  onSubmit={editUserData}
-                >
-                  <div>
+              </TabPanel>
+              <TabPanel className="react-tabs__tab-panel">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div style={{ marginTop: "30px" }}>
                     <label className="profile__settings__form__title">
-                      First name
+                      Current password
                     </label>
                     <input
-                      type="text"
-                      name="first_name"
-                      defaultValue={user?.first_name}
+                      type="password"
+                      className="profile__settings__form__input"
+                      {...register("currentPassword")}
+                    />
+                    <p className="error-message">{passwordEditError}</p>
+                  </div>
+                  <div style={{ marginTop: "30px" }}>
+                    <label className="profile__settings__form__title">
+                      New password
+                    </label>
+                    <input
+                      {...register("newPassword")}
+                      type="password"
                       className="profile__settings__form__input"
                     />
                   </div>
-                  <div>
+                  <div style={{ marginTop: "30px" }}>
                     <label className="profile__settings__form__title">
-                      Last name
+                      Conifirm new password
                     </label>
                     <input
-                      name="last_name"
-                      defaultValue={user?.last_name}
-                      type="text"
+                      {...register("newPasswordAgain")}
+                      type="password"
                       className="profile__settings__form__input"
                     />
-                  </div>
-                  <div>
-                    <label className="profile__settings__form__title">
-                      Username
-                    </label>
-                    <input
-                      type="text"
-                      name="username"
-                      defaultValue={user?.username}
-                      className="profile__settings__form__input"
-                    />
-                  </div>
-                  <div>
-                    <label className="profile__settings__form__title">
-                      Phone number
-                    </label>
-                    <input
-                      type="text"
-                      name="phoneNumber"
-                      defaultValue={user?.phoneNumber}
-                      className="profile__settings__form__input"
-                    />
-                  </div>
-                  <div>
-                    <label className="profile__settings__form__title">
-                      Birthday
-                    </label>
-                    <input
-                      type="date"
-                      name="birthday"
-                      onChange={(e) => setDateUser(e.target.value)}
-                      value="2007-10-21"
-                      className="profile__settings__form__input"
-                    />
-                  </div>
-                  <div>
-                    <label className="profile__settings__form__title">
-                      Email
-                    </label>
-                    <input
-                      name="email"
-                      defaultValue={user?.email}
-                      type="email"
-                      className="profile__settings__form__input"
-                    />
-                  </div>
-                  <div>
-                    <label className="profile__settings__form__title">
-                      Info
-                    </label>
-                    <textarea
-                      name="info"
-                      defaultValue={user?.info}
-                      type="text"
-                      className="profile__settings__form__input"
-                    />
-                  </div>
-                  <div>
-                    <label className="profile__settings__form__title">
-                      Address
-                    </label>
-                    <input
-                      name="address"
-                      defaultValue={user?.address}
-                      type="text"
-                      className="profile__settings__form__input"
-                    />
+                    <p className="error-message">
+                      {errors.newPasswordAgain?.message}
+                    </p>
                   </div>
                   <div className="send">
-                    {editLoading ? (
+                    {passwordEditLoading ? (
                       <button disabled className="send__button send__disabled">
                         Loading...
                       </button>
@@ -274,69 +329,20 @@ const AccountPage = () => {
                     )}
                   </div>
                 </form>
-              </div>
-            </TabPanel>
-            <TabPanel className="react-tabs__tab-panel">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div style={{ marginTop: "30px" }}>
-                  <label className="profile__settings__form__title">
-                    Current password
-                  </label>
-                  <input
-                    type="password"
-                    className="profile__settings__form__input"
-                    {...register("currentPassword")}
-                  />
-                  <p className="error-message">{passwordEditError}</p>
-                </div>
-                <div style={{ marginTop: "30px" }}>
-                  <label className="profile__settings__form__title">
-                    New password
-                  </label>
-                  <input
-                    {...register("newPassword")}
-                    type="password"
-                    className="profile__settings__form__input"
-                  />
-                </div>
-                <div style={{ marginTop: "30px" }}>
-                  <label className="profile__settings__form__title">
-                    Conifirm new password
-                  </label>
-                  <input
-                    {...register("newPasswordAgain")}
-                    type="password"
-                    className="profile__settings__form__input"
-                  />
-                  <p className="error-message">
-                    {errors.newPasswordAgain?.message}
-                  </p>
-                </div>
-                <div className="send">
-                  {passwordEditLoading ? (
-                    <button disabled className="send__button send__disabled">
-                      Loading...
-                    </button>
-                  ) : (
-                    <button type="submit" className="send__button">
-                      Save
-                    </button>
-                  )}
-                </div>
-              </form>
-            </TabPanel>
-          </Tabs>
-        )}
+              </TabPanel>
+            </Tabs>
+          )}
 
-        <button
-          style={{ marginTop: "40px" }}
-          onClick={logOut}
-          className="auth__button"
-        >
-          Logout
-        </button>
-      </div>
-    </section>
+          <button
+            style={{ marginTop: "40px" }}
+            onClick={logOut}
+            className="auth__button"
+          >
+            Logout
+          </button>
+        </div>
+      </section>
+    </PageTransitionProvider>
   );
 };
 

@@ -11,6 +11,7 @@ import { ROLE, TOKEN } from "../../../constants";
 import request from "../../../server";
 
 import "./Register.scss";
+import PageTransitionProvider from "../../../components/page-transition";
 
 const schema = yup
   .object({
@@ -69,67 +70,71 @@ const RegisterPage = () => {
   };
 
   return (
-    <section>
-      <div className="container register__container">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <h1>Register</h1>
-          <div className="login__item">
-            <input
-              type="text"
-              className="input"
-              placeholder="Firstname"
-              {...register("first_name")}
-            />
-            <p className="error-message">{errors.first_name?.message}</p>
-          </div>
-          <div className="login__item">
-            <input
-              type="text"
-              className="input"
-              placeholder="LastName"
-              {...register("last_name")}
-            />
-            <p className="error-message">{errors.last_name?.message}</p>
-          </div>
-          <div className="login__item">
-            <input
-              type="text"
-              className="input"
-              placeholder="Username"
-              {...register("username")}
-            />
-            <p className="error-message">{errors.username?.message}</p>
-          </div>
-          <div className="login__item">
-            <input
-              type="password"
-              className="input"
-              placeholder="Password"
-              {...register("password")}
-            />
-            <p className="error-message">{errors.password?.message}</p>
-          </div>
-          <div className="login__item">
-            <input
-              type="password"
-              className="input"
-              placeholder="Confirm password"
-              {...register("confirm_password")}
-            />
-            <p className="error-message">{errors.confirm_password?.message}</p>
-          </div>
-          {loading ? (
-            <button disabled type="submit" className="auth__button">
-              Loading...
-            </button>
-          ) : (
-            <button type="submit" className="auth__button">
-              Register
-            </button>
-          )}
-        </form>
-      </div>
-    </section>
+    <PageTransitionProvider>
+      <section>
+        <div className="container register__container">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <h1>Register</h1>
+            <div className="login__item">
+              <input
+                type="text"
+                className="input"
+                placeholder="Firstname"
+                {...register("first_name")}
+              />
+              <p className="error-message">{errors.first_name?.message}</p>
+            </div>
+            <div className="login__item">
+              <input
+                type="text"
+                className="input"
+                placeholder="LastName"
+                {...register("last_name")}
+              />
+              <p className="error-message">{errors.last_name?.message}</p>
+            </div>
+            <div className="login__item">
+              <input
+                type="text"
+                className="input"
+                placeholder="Username"
+                {...register("username")}
+              />
+              <p className="error-message">{errors.username?.message}</p>
+            </div>
+            <div className="login__item">
+              <input
+                type="password"
+                className="input"
+                placeholder="Password"
+                {...register("password")}
+              />
+              <p className="error-message">{errors.password?.message}</p>
+            </div>
+            <div className="login__item">
+              <input
+                type="password"
+                className="input"
+                placeholder="Confirm password"
+                {...register("confirm_password")}
+              />
+              <p className="error-message">
+                {errors.confirm_password?.message}
+              </p>
+            </div>
+            {loading ? (
+              <button disabled type="submit" className="auth__button">
+                Loading...
+              </button>
+            ) : (
+              <button type="submit" className="auth__button">
+                Register
+              </button>
+            )}
+          </form>
+        </div>
+      </section>
+    </PageTransitionProvider>
   );
 };
 
