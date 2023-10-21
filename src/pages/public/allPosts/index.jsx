@@ -4,16 +4,17 @@ import ReactPaginate from "react-paginate";
 import AllPostsCard from "../../../components/card/allPostCard";
 import useFetch from "../../../hooks/useFetch";
 import Loading from "../../../components/shared/Loading";
+import PageTransitionProvider from "../../../components/page-transition";
 
 import "./AllPosts.scss";
-import PageTransitionProvider from "../../../components/page-transition";
 
 const AllPostsPage = () => {
   const [selected, setSelected] = useState(1);
   const [allPost, setAllpost] = useState([]);
+  const [search, setSearch] = useState("");
 
   const { data: dataPost, loading } = useFetch({
-    url: `/post?page=${selected}&limit=6`,
+    url: `/post?page=${selected}&limit=6&search=${search}`,
     initialData: {},
   });
 
@@ -39,6 +40,8 @@ const AllPostsPage = () => {
           style={{ padding: "170px 0 100px 0" }}
         >
           <input
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
             type="search"
             placeholder="Search..."
             className="search__input"

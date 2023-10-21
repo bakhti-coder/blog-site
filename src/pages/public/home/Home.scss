@@ -91,3 +91,11 @@
     letter-spacing: -2px;
   }
 }
+
+.card-loading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}

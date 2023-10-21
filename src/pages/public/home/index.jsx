@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Parallax } from "react-parallax";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -8,10 +8,10 @@ import useFetch from "../../../hooks/useFetch";
 import BlogCard from "../../../components/card/blog/BlogCard";
 import Loading from "../../../components/shared/Loading";
 import CategoryCard from "../../../components/card/category";
-
-import "./Home.scss";
 import PageTransitionProvider from "../../../components/page-transition";
 import TextAnimation from "../../../components/text-animation";
+
+import "./Home.scss";
 
 const HomePage = () => {
   const [categoryData, setCategoryData] = useState([]);
@@ -108,11 +108,34 @@ const HomePage = () => {
             pagination={{ clickable: true }}
           >
             {secondLoading ? (
-              <div className="card is-loading">
-                <div className="image"></div>
-                <div className="content">
-                  <h2></h2>
-                  <p></p>
+              <div className="card-loading">
+                <div className="card is-loading">
+                  <div className="image"></div>
+                  <div className="content">
+                    <h2></h2>
+                    <p></p>
+                  </div>
+                </div>
+                <div className="card is-loading">
+                  <div className="image"></div>
+                  <div className="content">
+                    <h2></h2>
+                    <p></p>
+                  </div>
+                </div>
+                <div className="card is-loading">
+                  <div className="image"></div>
+                  <div className="content">
+                    <h2></h2>
+                    <p></p>
+                  </div>
+                </div>
+                <div className="card is-loading">
+                  <div className="image"></div>
+                  <div className="content">
+                    <h2></h2>
+                    <p></p>
+                  </div>
                 </div>
               </div>
             ) : (

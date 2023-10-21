@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import { ENDPOINTIMG } from "../../../constants";
 
 import "./AllPostCard.scss";
-import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const AllPostsCard = ({ _id, title, category, description, photo }) => {
+  
   const imgFormate = photo?.name?.split(".")[1];
   const imgId = photo?._id;
   const resultImg = `${imgId}.${imgFormate}`;

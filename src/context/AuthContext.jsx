@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 import { ROLE, TOKEN } from "../constants";
 import request from "../server";
+import { Modal } from "antd";
 
 export const AuthContext = createContext();
 
@@ -23,11 +24,31 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const logOut = (navigate) => {
+    Modal.confirm({
+      title: "Do you want to exit?",
+      onOk: () => {
+        navigate("/login");
+        setIsLogin(false);
+        localStorage.removeItem(TOKEN);
+      },
+    });
+  };
+
   useEffect(() => {
     isLogin && getUser();
   }, [isLogin]);
 
-  const state = { isLogin, role, loading, user, setIsLogin, setRole, getUser };
+  const state = {
+    isLogin,
+    role,
+    loading,
+    user,
+    setIsLogin,
+    setRole,
+    getUser,
+    logOut,
+  };
 
   return <AuthContext.Provider value={state}>{children}</AuthContext.Provider>;
 };

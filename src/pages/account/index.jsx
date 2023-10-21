@@ -1,7 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Cookies from "js-cookie";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,14 +8,13 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import * as yup from "yup";
 
 import { AuthContext } from "../../context/AuthContext";
-import { ROLE, TOKEN } from "../../constants";
+import PageTransitionProvider from "../../components/page-transition";
 import getImage from "../../utils/Image";
 import Loading from "../../components/shared/Loading";
 import request from "../../server";
 
 import "react-tabs/style/react-tabs.css";
 import "./Account.scss";
-import PageTransitionProvider from "../../components/page-transition";
 
 const schema = yup
   .object({
@@ -38,17 +36,7 @@ const AccountPage = () => {
   const [passwordEditError, setPasswordEditError] = useState(null);
   const [photoLoading, SetPhotoLoading] = useState(false);
 
-  const { setIsLogin, user, loading, setRole, getUser } =
-    useContext(AuthContext);
-
-  const logOut = () => {
-    Cookies.remove(TOKEN);
-    localStorage.removeItem(ROLE);
-    setIsLogin(false);
-    setRole(null);
-    navigate("/");
-    toast.success("Succses logOut", { autoClose: 1000 });
-  };
+  const { user, loading, getUser, logOut } = useContext(AuthContext);
 
   useEffect(() => {
     setPhoto(user?.photo);
@@ -335,7 +323,7 @@ const AccountPage = () => {
 
           <button
             style={{ marginTop: "40px" }}
-            onClick={logOut}
+            onClick={() => logOut(navigate)}
             className="auth__button"
           >
             Logout

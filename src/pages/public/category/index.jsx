@@ -22,7 +22,7 @@ const CategoryPage = () => {
   });
 
   const { data: dataCategory, loading } = useFetch({
-    url: `/category?page=${selected}&limit=4`,
+    url: `/category?page=${selected}&limit=4&search=${search}`,
     initialData: {},
   });
   const total = dataCategory?.pagination?.total;
@@ -62,15 +62,9 @@ const CategoryPage = () => {
           {loading ? (
             <Loading />
           ) : (
-            allCategory
-              ?.filter((category) => {
-                return search.toLowerCase() === ""
-                  ? category
-                  : category?.name?.toLowerCase().includes(search);
-              })
-              .map((category) => (
-                <AllCategoryCard key={category?._id} {...category} />
-              ))
+            allCategory.map((category) => (
+              <AllCategoryCard key={category?._id} {...category} />
+            ))
           )}
           {allPage !== 1 ? (
             <div>

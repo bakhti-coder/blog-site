@@ -1,18 +1,19 @@
 import { useContext, useState } from "react";
 import Hamburger from "hamburger-react";
 import { Link, NavLink } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import { AuthContext } from "../../../context/AuthContext";
 
 import "./Header.scss";
-import { LazyLoadImage } from "react-lazy-load-image-component";
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { isLogin } = useContext(AuthContext);
 
   return (
-    <header>
+    <header className="header">
       <nav className="container">
         <div className="nav__item">
           <div>

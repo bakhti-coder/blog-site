@@ -1,10 +1,10 @@
+import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
 
 import { ENDPOINTIMG } from "../../../constants";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Loading from "../../../components/shared/Loading";
-import { Fragment } from "react";
 
 import "./AllPosts.scss";
 
@@ -14,7 +14,7 @@ const SinglePosts = () => {
     url: `/post/${id}`,
     initialData: {},
   });
-  console.log(id);
+
   const imgFormate = singleBlog?.photo?.name.split(".")[1];
   const imgId = singleBlog?.photo?._id;
   const resultImg = `${imgId}.${imgFormate}`;
