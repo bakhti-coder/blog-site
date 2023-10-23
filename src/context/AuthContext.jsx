@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 
 import { ROLE, TOKEN } from "../constants";
-import request from "../server";
 import { Modal } from "antd";
+import request from "../server";
 
 export const AuthContext = createContext();
 

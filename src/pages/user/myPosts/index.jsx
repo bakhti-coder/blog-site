@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import ReactModal from "react-modal";
@@ -7,7 +7,7 @@ import * as yup from "yup";
 import useFetch from "../../../hooks/useFetch";
 
 import request from "../../../server";
-import getImage from "../../../utils/Image";
+import getUserImage from "../../../utils/Image";
 import { toast } from "react-toastify";
 import UserPostCard from "../../../components/card/userBlogCard";
 import Loading from "../../../components/shared/Loading";
@@ -267,7 +267,7 @@ const MyPostsPage = () => {
                 <LazyLoadImage
                   effect="blur"
                   className="file__img"
-                  src={getImage(resultImg)}
+                  src={getUserImage(resultImg)}
                   alt="NoPhoto"
                 />
               )}

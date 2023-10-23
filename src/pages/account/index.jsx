@@ -9,7 +9,7 @@ import * as yup from "yup";
 
 import { AuthContext } from "../../context/AuthContext";
 import PageTransitionProvider from "../../components/page-transition";
-import getImage from "../../utils/Image";
+import getUserImage from "../../utils/Image";
 import Loading from "../../components/shared/Loading";
 import request from "../../server";
 
@@ -146,7 +146,7 @@ const AccountPage = () => {
                       <LazyLoadImage
                         effect="blur"
                         className="file__img"
-                        src={getImage(photo)}
+                        src={getUserImage(photo)}
                         alt="user"
                       />
                     ) : (
