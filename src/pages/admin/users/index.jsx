@@ -1,3 +1,10 @@
+import { Fragment, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  changePage,
+  getUsers,
+  searchUsers,
+} from "../../../redux/actions/users";
 import {
   Button,
   Flex,
@@ -8,28 +15,21 @@ import {
   Space,
   Table,
 } from "antd";
-import { Fragment, useEffect } from "react";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  changePage,
-  getCategories,
-  searchCategories,
-} from "../../../redux/actions/category";
-import { getImage } from "../../../utils/GetImage";
 import { LIMIT } from "../../../constants";
+import getUserImage from "../../../utils/Image";
+import { Link } from "react-router-dom";
 
-const CategoriesPage = () => {
+const UsersPage = () => {
   const dispatch = useDispatch();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { total, categries, loading, activePage, search } = useSelector(
-    (state) => state.category
+  const { total, user, loading, activePage, search } = useSelector(
+    (state) => state.users
   );
 
   useEffect(() => {
-    total === 0 && dispatch(getCategories());
+    total === 0 && dispatch(getUsers());
   }, [dispatch, total]);
 
   const showModal = () => {
@@ -45,19 +45,50 @@ const CategoriesPage = () => {
       title: "Image",
       dataIndex: "photo",
       key: "photo",
-      render: (data) => <Image src={getImage(data)} height={70} width={70} />,
+      render: (data) => (
+        <Image
+          style={{ borderRadius: "50%" }}
+          src={
+            data
+              ? getUserImage(data)
+              : "https://cdn.pixabay.com/photo/2012/04/26/19/43/profile-42914_640.png"
+          }
+          height={70}
+          width={70}
+        />
+      ),
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      render: (text) => <a>{text}</a>,
+      title: "First Name",
+      dataIndex: "first_name",
+      key: "first_name",
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text) => <p>{text.slice(0, 70)}...</p>,
+      title: "Last Name",
+      dataIndex: "last_name",
+      key: "last_name",
+    },
+    {
+      title: "Username",
+      dataIndex: "username",
+      key: "username",
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: (data) => <p>{data ? data : "-"}</p>,
+    },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (data) => <p>{data ? data : "-"}</p>,
     },
     {
       title: "Action",
@@ -69,6 +100,7 @@ const CategoriesPage = () => {
           <Button type="primary" danger>
             Delete
           </Button>
+          <Link>See more</Link>
         </Space>
       ),
     },
@@ -82,24 +114,23 @@ const CategoriesPage = () => {
         }}
         title={() => (
           <Flex justify="space-between" gap={36} align="center">
-            <h1>Categories ({total})</h1>
+            <h1>Users ({total})</h1>
             <Input
               value={search}
-              onChange={(e) => dispatch(searchCategories(e.target.value))}
+              onChange={(e) => dispatch(searchUsers(e.target.value))}
               style={{ width: "auto", flexGrow: 1 }}
               placeholder="Searching..."
             />
             <Button onClick={showModal} type="dashed">
-              Add category
+              Add user
             </Button>
           </Flex>
         )}
         pagination={false}
         loading={loading}
         columns={columns}
-        dataSource={categries}
+        dataSource={user}
       />
-
       {total > LIMIT ? (
         <Pagination
           style={{ marginTop: 30 }}
@@ -122,4 +153,4 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+export default UsersPage;

@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@ant-design/plots": "^1.2.5",
     "@hookform/resolvers": "^3.3.2",
     "antd": "^5.10.1",
     "aos": "^2.3.4",

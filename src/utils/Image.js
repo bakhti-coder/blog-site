@@ -4,5 +4,4 @@ const getUserImage = (photo) => {
   return `${ENDPOINTIMG}${photo}`;
 };
 
-
-export default { getUserImage };
+export default getUserImage;

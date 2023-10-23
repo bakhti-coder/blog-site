@@ -58,6 +58,11 @@ const AdminLayout = () => {
               label: <Link to="/posts">Posts</Link>,
             },
             {
+              key: "/users",
+              icon: <UploadOutlined />,
+              label: <Link to="/users">Users</Link>,
+            },
+            {
               key: "4",
               icon: <LogoutOutlined />,
               label: (

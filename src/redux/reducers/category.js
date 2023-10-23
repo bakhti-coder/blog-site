@@ -11,7 +11,7 @@ const initialState = {
   total: 0,
   activePage: 1,
   loading: false,
-  erro: null,
+  error: null,
   search: "",
 };
 

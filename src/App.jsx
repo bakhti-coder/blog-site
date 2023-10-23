@@ -18,6 +18,7 @@ import MyPostsPage from "./pages/user/myPosts";
 import NotFound from "./pages/public/notFound";
 import PostsPage from "./pages/admin/posts";
 import CategoriesPage from "./pages/admin/categories";
+import UsersPage from "./pages/admin/users";
 
 function App() {
   const { isLogin, role } = useContext(AuthContext);
@@ -52,6 +53,7 @@ function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
             <Route path="/posts" element={<PostsPage />} />
+            <Route path="/users" element={<UsersPage />} />
           </Route>
         ) : null}
         <Route path="*" element={<NotFound />} />
