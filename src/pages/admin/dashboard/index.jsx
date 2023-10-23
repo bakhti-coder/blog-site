@@ -1,20 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
-
-import { Decrement, Increment } from "../../../redux/actions/counter";
+import { useEffect } from "react";
+import { getCategories } from "../../../redux/actions/category";
 
 import "./Dashboard.scss";
 
 const DashboardPage = () => {
-  const {
-    counter: { counter },
-  } = useSelector((state) => state);
-
   const dispatch = useDispatch();
+
+  const { total, loading } = useSelector((state) => state.category);
+
+  useEffect(() => {
+    total === 0 && dispatch(getCategories());
+  }, [dispatch, total]);
   return (
     <div>
-      <h1>Counter {counter}</h1>
-      <button onClick={() => dispatch(Decrement())}>-</button>
-      <button onClick={() => dispatch(Increment())}>+</button>
+      <h1> Categries: {loading ? `...` : total} </h1>
     </div>
   );
 };

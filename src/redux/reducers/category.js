@@ -1,6 +1,8 @@
 import {
   CATEGORY_FETCHING,
   CATEGORY_LOADING,
+  CATEGORY_PAGE,
+  CATEGORY_SEARCH,
   CATEGORY_TOTAL,
 } from "../types/categoty";
 
@@ -21,6 +23,10 @@ const categoryReducer = (state = initialState, { type, payload }) => {
       return { ...state, categries: payload };
     case CATEGORY_TOTAL:
       return { ...state, total: payload };
+    case CATEGORY_PAGE:
+      return { ...state, activePage: payload };
+    case CATEGORY_SEARCH:
+      return { ...state, search: payload };
   }
   return state;
 };

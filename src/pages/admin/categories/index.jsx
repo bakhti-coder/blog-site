@@ -1,8 +1,19 @@
-import { Button, Flex, Image, Modal, Space, Table } from "antd";
-import { useEffect } from "react";
+import {
+  Button,
+  Flex,
+  Image,
+  Input,
+  Modal,
+  Pagination,
+  Space,
+  Table,
+} from "antd";
+import { Fragment, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories } from "../../../redux/actions/category";
+import { changePage, getCategories, searchCategories } from "../../../redux/actions/category";
+import { getImage } from "../../../utils/GetImage";
+import { LIMIT } from "../../../constants";
 // import getImage from "../../../utils/getImage";
 
 const CategoriesPage = () => {
@@ -10,12 +21,13 @@ const CategoriesPage = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { total, categries, loading } = useSelector((state) => state.category);
-  console.log(loading);
+  const { total, categries, loading, activePage, search } = useSelector(
+    (state) => state.category
+  );
 
   useEffect(() => {
-    dispatch(getCategories());
-  }, [dispatch]);
+    total === 0 && dispatch(getCategories());
+  }, [dispatch, total]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -30,14 +42,7 @@ const CategoriesPage = () => {
       title: "Image",
       dataIndex: "photo",
       key: "photo",
-      render: (data) => (
-        <Image
-          src={data}
-          // src={getImage(data)}
-          height={60}
-          style={{ borderRadius: "50%" }}
-        />
-      ),
+      render: (data) => <Image src={getImage(data)} height={70} width={70} />,
     },
     {
       title: "Name",
@@ -49,6 +54,7 @@ const CategoriesPage = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      render: (text) => <p>{text.slice(0, 70)}...</p>,
     },
     {
       title: "Action",
@@ -65,26 +71,40 @@ const CategoriesPage = () => {
     },
   ];
 
-  // const data = [];
-
   return (
-    <div>
+    <Fragment>
       <Table
         scroll={{
           x: 1000,
         }}
         title={() => (
-          <Flex justify="space-between" align="center">
-            <h1>Teachers ({total})</h1>
-            <Button type="primary" onClick={showModal}>
-              Add teachers
+          <Flex justify="space-between" gap={36} align="center">
+            <h1>Categories ({total})</h1>
+            <Input
+              value={search}
+              onChange={(e) => dispatch(searchCategories(e.target.value))}
+              style={{ width: "auto", flexGrow: 1 }}
+              placeholder="Searching..."
+            />
+            <Button onClick={showModal} type="dashed">
+              Add category
             </Button>
           </Flex>
         )}
+        pagination={false}
         loading={loading}
         columns={columns}
         dataSource={categries}
       />
+
+      {total > LIMIT ? (
+        <Pagination
+          total={total}
+          pageSize={LIMIT}
+          current={activePage}
+          onChange={(page) => dispatch(changePage(page))}
+        />
+      ) : null}
 
       <Modal
         // confirmLoading={isBtnLoading}
@@ -94,7 +114,7 @@ const CategoriesPage = () => {
         onCancel={handleCancel}
         open={isModalOpen}
       ></Modal>
-    </div>
+    </Fragment>
   );
 };
 

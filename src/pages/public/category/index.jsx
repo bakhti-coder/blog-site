@@ -62,7 +62,7 @@ const CategoryPage = () => {
           {loading ? (
             <Loading />
           ) : (
-            allCategory.map((category) => (
+            allCategory?.map((category) => (
               <AllCategoryCard key={category?._id} {...category} />
             ))
           )}
