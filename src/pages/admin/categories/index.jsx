@@ -1,43 +1,61 @@
+import { Fragment, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   Button,
   Flex,
+  Form,
   Image,
   Input,
   Modal,
   Pagination,
   Space,
   Table,
+  Upload,
 } from "antd";
-import { Fragment, useEffect } from "react";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   changePage,
+  controlModal,
+  deleteCategory,
+  editCategory,
   getCategories,
   searchCategories,
+  sendCategory,
+  showModal,
+  uploadImage,
 } from "../../../redux/actions/category";
-import { getImage } from "../../../utils/GetImage";
 import { LIMIT } from "../../../constants";
+import { getImage } from "../../../utils/GetImage";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch();
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { total, categries, loading, activePage, search } = useSelector(
-    (state) => state.category
-  );
+  const {
+    categories,
+    total,
+    loading,
+    activePage,
+    search,
+    isModalOpen,
+    selected,
+    isModalLoading,
+    imageData,
+    imageLoading,
+  } = useSelector((state) => state.category);
+  const [form] = Form.useForm();
 
   useEffect(() => {
-    total === 0 && dispatch(getCategories());
-  }, [dispatch, total]);
+    dispatch(getCategories());
+  }, [dispatch]);
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const handleOk = async () => {
+    const values = await form.validateFields();
+    values.photo = imageData._id;
+    dispatch(sendCategory({ values, selected, activePage, search, form }));
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const closeModal = () => {
+    dispatch(controlModal(false));
   };
 
   const columns = [
@@ -45,30 +63,41 @@ const CategoriesPage = () => {
       title: "Image",
       dataIndex: "photo",
       key: "photo",
-      render: (data) => <Image src={getImage(data)} height={70} width={70} />,
+      render: (data) => <Image height={50} src={getImage(data)} />,
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text) => <a>{text}</a>,
     },
     {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      render: (text) => <p>{text.slice(0, 70)}...</p>,
+      render: (data) => <p>{data.slice(0, 30)}...</p>,
     },
     {
       title: "Action",
-      key: "action",
       dataIndex: "_id",
-      render: () => (
+      key: "_id",
+      render: (data) => (
         <Space size="middle">
-          <Button type="primary">Update</Button>
-          <Button type="primary" danger>
+          <Button
+            type="primary"
+            onClick={() => dispatch(editCategory(form, data))}
+          >
+            Edit
+          </Button>
+          <Button
+            type="primary"
+            danger
+            onClick={() => dispatch(deleteCategory({ id: data, search }))}
+          >
             Delete
           </Button>
+          <Link to={`/categories/${data}`} type="primary">
+            See posts
+          </Link>
         </Space>
       ),
     },
@@ -89,35 +118,104 @@ const CategoriesPage = () => {
               style={{ width: "auto", flexGrow: 1 }}
               placeholder="Searching..."
             />
-            <Button onClick={showModal} type="dashed">
+            <Button type="dashed" onClick={() => dispatch(showModal(form))}>
               Add category
             </Button>
           </Flex>
         )}
         pagination={false}
         loading={loading}
+        dataSource={categories}
         columns={columns}
-        dataSource={categries}
       />
-
       {total > LIMIT ? (
         <Pagination
-          style={{ marginTop: 30 }}
           total={total}
           pageSize={LIMIT}
           current={activePage}
-          onChange={(page) => dispatch(changePage(page))}
+          onChange={(page) => dispatch(changePage(page, search))}
         />
       ) : null}
-
       <Modal
-        // confirmLoading={isBtnLoading}
-        title="Add Teacher"
-        // onOk={handleOk}
-        // okText={selected === null ? "Add" : "Save teachers"}
-        onCancel={handleCancel}
+        title="Category data"
+        maskClosable={false}
+        confirmLoading={isModalLoading}
+        okText={selected === null ? "Add category" : "Save category"}
         open={isModalOpen}
-      ></Modal>
+        onOk={handleOk}
+        onCancel={closeModal}
+      >
+        <Form
+          name="category"
+          autoComplete="off"
+          labelCol={{
+            span: 24,
+          }}
+          wrapperCol={{
+            span: 24,
+          }}
+          form={form}
+        >
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            onChange={(e) => dispatch(uploadImage(e.file.originFileObj))}
+          >
+            <div>
+              {imageLoading ? (
+                <LoadingOutlined />
+              ) : imageData ? (
+                <img
+                  src={getImage(imageData)}
+                  alt="avatar"
+                  style={{
+                    width: "100%",
+                  }}
+                />
+              ) : (
+                <div>
+                  <PlusOutlined />
+                  <div
+                    style={{
+                      marginTop: 8,
+                    }}
+                  >
+                    Upload
+                  </div>
+                </div>
+              )}
+            </div>
+          </Upload>
+          {/* <input type="file" onChange={uploadImage}/> */}
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Description"
+            name="description"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Fragment>
   );
 };
