@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import { getImage } from "../../../utils/getImage";
 
 import "./CategoryCard.scss";
+import { getImage } from "../../../utils/GetImage";
 
 const CategoryCard = ({ _id, name, description, photo }) => {
   return (

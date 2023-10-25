@@ -24,8 +24,8 @@ import {
   Upload,
 } from "antd";
 import { LIMIT } from "../../../constants";
-import getUserImage from "../../../utils/Image";
 import { Link } from "react-router-dom";
+import getUserImage from "../../../utils/Image";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { getImage } from "../../../utils/GetImage";
 

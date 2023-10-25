@@ -35,13 +35,13 @@ import {
 } from "@ant-design/icons";
 import Meta from "antd/es/card/Meta";
 
-import { getImage } from "../../../utils/GetImage";
 import getUserImage from "../../../utils/Image";
 import Loading from "../../../components/shared/Loading";
 import { LIMIT } from "../../../constants";
 import useFetch from "../../../hooks/useFetch";
 
 import "./AdminPosts.scss";
+import { getImage } from "../../../utils/GetImage";
 
 const PostsPage = () => {
   const [getCategoryName, setGetCategoryName] = useState();
