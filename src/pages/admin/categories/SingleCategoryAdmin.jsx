@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import Loading from "../../../components/shared/Loading";
+import { getImage } from "../../../utils/GetImage";
 import useFetch from "../../../hooks/useFetch";
 
 import "./style.scss";
-import { getImage } from "../../../utils/GetImage";
 
 const SingleCategoryAdmin = () => {
   const { id } = useParams();
