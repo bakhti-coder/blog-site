@@ -29,8 +29,8 @@ import {
   uploadImage,
 } from "../../../redux/actions/category";
 
-import { LIMIT } from "../../../constants";
 import { getImage } from "../../../utils/GetImage";
+import { LIMIT } from "../../../constants";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch();
