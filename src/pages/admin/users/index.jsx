@@ -1,44 +1,54 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect , memo} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   changePage,
+  controlModal,
+  deleteUsers,
+  editUsers,
   getUsers,
   searchUsers,
+  sendUsers,
+  showModal,
+  uploadImage,
 } from "../../../redux/actions/users";
 import {
   Button,
   Flex,
+  Form,
   Image,
   Input,
   Modal,
   Pagination,
   Space,
   Table,
+  Upload,
 } from "antd";
 import { LIMIT } from "../../../constants";
 import getUserImage from "../../../utils/Image";
 import { Link } from "react-router-dom";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { getImage } from "../../../utils/GetImage";
 
 const UsersPage = () => {
   const dispatch = useDispatch();
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const { total, user, loading, activePage, search } = useSelector(
-    (state) => state.users
-  );
+  const {
+    users,
+    total,
+    loading,
+    activePage,
+    search,
+    isModalOpen,
+    selected,
+    isModalLoading,
+    imageData,
+    imageLoading,
+  } = useSelector((state) => state.users);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     total === 0 && dispatch(getUsers());
   }, [dispatch, total]);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   const columns = [
     {
@@ -74,11 +84,6 @@ const UsersPage = () => {
       key: "username",
     },
     {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-    },
-    {
       title: "Email",
       dataIndex: "email",
       key: "email",
@@ -94,17 +99,38 @@ const UsersPage = () => {
       title: "Action",
       key: "action",
       dataIndex: "_id",
-      render: () => (
+      render: (data) => (
         <Space size="middle">
-          <Button type="primary">Update</Button>
-          <Button type="primary" danger>
+          <Button
+            type="primary"
+            onClick={() => dispatch(editUsers(form, data))}
+          >
+            Edit
+          </Button>
+          <Button
+            type="primary"
+            danger
+            onClick={() => dispatch(deleteUsers({ id: data, search }))}
+          >
             Delete
           </Button>
-          <Link>See more</Link>
+          <Link to={`/users/${data}`} type="primary">
+            See posts
+          </Link>
         </Space>
       ),
     },
   ];
+
+  const handleOk = async () => {
+    const values = await form.validateFields();
+    values.photo = imageData._id;
+    dispatch(sendUsers({ values, selected, activePage, search, form }));
+  };
+
+  const closeModal = () => {
+    dispatch(controlModal(false));
+  };
 
   return (
     <Fragment>
@@ -121,7 +147,7 @@ const UsersPage = () => {
               style={{ width: "auto", flexGrow: 1 }}
               placeholder="Searching..."
             />
-            <Button onClick={showModal} type="dashed">
+            <Button type="dashed" onClick={() => dispatch(showModal(form))}>
               Add user
             </Button>
           </Flex>
@@ -129,7 +155,7 @@ const UsersPage = () => {
         pagination={false}
         loading={loading}
         columns={columns}
-        dataSource={user}
+        dataSource={users}
       />
       {total > LIMIT ? (
         <Pagination
@@ -142,15 +168,116 @@ const UsersPage = () => {
       ) : null}
 
       <Modal
-        // confirmLoading={isBtnLoading}
-        title="Add Teacher"
-        // onOk={handleOk}
-        // okText={selected === null ? "Add" : "Save teachers"}
-        onCancel={handleCancel}
+        title="ser data"
+        maskClosable={false}
+        confirmLoading={isModalLoading}
+        okText={selected === null ? "Add user" : "Save user"}
         open={isModalOpen}
-      ></Modal>
+        onOk={handleOk}
+        onCancel={closeModal}
+      >
+        <Form
+          name="User"
+          autoComplete="off"
+          labelCol={{
+            span: 24,
+          }}
+          wrapperCol={{
+            span: 24,
+          }}
+          form={form}
+        >
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            onChange={(e) => dispatch(uploadImage(e.file.originFileObj))}
+          >
+            <div>
+              {imageLoading ? (
+                <LoadingOutlined />
+              ) : imageData ? (
+                <img
+                  src={getImage(imageData)}
+                  alt="avatar"
+                  style={{
+                    width: "100%",
+                  }}
+                />
+              ) : (
+                <div>
+                  <PlusOutlined />
+                  <div
+                    style={{
+                      marginTop: 8,
+                    }}
+                  >
+                    Upload
+                  </div>
+                </div>
+              )}
+            </div>
+          </Upload>
+
+          <Form.Item
+            label="First name"
+            name="first_name"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Last name"
+            name="last_name"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input.Password />
+          </Form.Item>
+        </Form>
+      </Modal>
     </Fragment>
   );
 };
 
-export default UsersPage;
+const MemoUsersPage = memo(UsersPage);
+
+
+export default MemoUsersPage;

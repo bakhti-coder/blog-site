@@ -1,0 +1,45 @@
+import { memo } from "react";
+import { useParams } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+
+import { getImage } from "../../../utils/GetImage";
+import Loading from "../../../components/shared/Loading";
+import useFetch from "../../../hooks/useFetch";
+
+import "./style.scss";
+
+const SingleCategoryAdmin = () => {
+  const { id } = useParams();
+
+  const { data: singleCatewgory, loading } = useFetch({
+    url: `/category/${id}`,
+    initialData: {},
+  });
+
+  return (
+    <section>
+      <div className="conatiner single__category">
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="single__category__item">
+            <div className="single__categgory__admin">
+              <LazyLoadImage
+                effect="blur"
+                src={getImage(singleCatewgory?.photo)}
+              />
+            </div>
+            <h1>{singleCatewgory?.name}</h1>
+            <p>{singleCatewgory?.description}</p>
+            <span>{`Blog > ${singleCatewgory?.name}`}</span>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+const MemoSingleCategoryAdmin = memo(SingleCategoryAdmin);
+
+
+export default MemoSingleCategoryAdmin;

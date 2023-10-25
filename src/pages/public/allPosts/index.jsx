@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import ReactPaginate from "react-paginate";
 
 import AllPostsCard from "../../../components/card/allPostCard";
@@ -22,16 +22,17 @@ const AllPostsPage = () => {
   const limit = dataPost?.pagination?.limit;
   const allPage = Math.ceil(total / limit);
 
-  const handlePageClick = (e) => {
-    setSelected(e.selected + 1);
-  };
-
+  
   useEffect(() => {
     if (dataPost) {
       setAllpost(dataPost.data);
     }
   }, [dataPost]);
-
+  
+  const handlePageClick = (e) => {
+    setSelected(e.selected + 1);
+  };
+  
   return (
     <PageTransitionProvider>
       <section>
@@ -82,4 +83,6 @@ const AllPostsPage = () => {
   );
 };
 
-export default AllPostsPage;
+const MemoAllPostsPage = memo(AllPostsPage);
+
+export default MemoAllPostsPage;

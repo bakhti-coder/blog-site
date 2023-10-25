@@ -19,6 +19,9 @@ import NotFound from "./pages/public/notFound";
 import PostsPage from "./pages/admin/posts";
 import CategoriesPage from "./pages/admin/categories";
 import UsersPage from "./pages/admin/users";
+import SingleCategoryAdmin from "./pages/admin/categories/SingleCategoryAdmin";
+import SinglePostsAdmin from "./pages/admin/posts/SinglePostsAdmin";
+import SingleUsersAdmin from "./pages/admin/users/SingleUsersAdmin";
 
 function App() {
   const { isLogin, role } = useContext(AuthContext);
@@ -40,7 +43,7 @@ function App() {
           <Route
             path="/my-posts"
             element={
-              isLogin && role === "user" ? (
+              isLogin && role === "user" || role === "admin" ? (
                 <MyPostsPage />
               ) : (
                 <Navigate to={"/login"} />
@@ -52,8 +55,11 @@ function App() {
           <Route element={<DashboardLayout />}>
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/categories" element={<CategoriesPage />} />
+            <Route path="/categories/:id" element={<SingleCategoryAdmin />} />
             <Route path="/posts" element={<PostsPage />} />
+            <Route path="/posts/:id" element={<SinglePostsAdmin />} />
             <Route path="/users" element={<UsersPage />} />
+            <Route path="/users/:id" element={<SingleUsersAdmin />} />
           </Route>
         ) : null}
         <Route path="*" element={<NotFound />} />

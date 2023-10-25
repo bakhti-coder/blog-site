@@ -1,6 +1,7 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import {
   Button,
   Flex,
@@ -13,7 +14,9 @@ import {
   Table,
   Upload,
 } from "antd";
+
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+
 import {
   changePage,
   controlModal,
@@ -25,6 +28,7 @@ import {
   showModal,
   uploadImage,
 } from "../../../redux/actions/category";
+
 import { LIMIT } from "../../../constants";
 import { getImage } from "../../../utils/GetImage";
 
@@ -110,7 +114,7 @@ const CategoriesPage = () => {
           x: 1000,
         }}
         title={() => (
-          <Flex justify="space-between" gap={36} align="center">
+          <Flex justify="space-between" gap={36} align="center" wrap="wrap">
             <h1>Categories ({total})</h1>
             <Input
               value={search}
@@ -220,4 +224,6 @@ const CategoriesPage = () => {
   );
 };
 
-export default CategoriesPage;
+const MemoCategoriesPage = memo(CategoriesPage);
+
+export default MemoCategoriesPage;

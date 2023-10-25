@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
 import useFetch from "../../../hooks/useFetch";
+import PageTransitionProvider from "../../../components/page-transition";
 import AllCategoryCard from "../../../components/card/singleBlog";
 import Loading from "../../../components/shared/Loading";
 
 import "./Category.scss";
-import PageTransitionProvider from "../../../components/page-transition";
 
 const CategoryPage = () => {
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState(1);
   const [allCategory, setallCategory] = useState([]);
-  console.log(allCategory);
 
   const { id } = useParams();
   const { data: singleCtg } = useFetch({
@@ -97,4 +96,6 @@ const CategoryPage = () => {
   );
 };
 
-export default CategoryPage;
+const MemoCategoryPage = memo(CategoryPage);
+
+export default MemoCategoryPage;

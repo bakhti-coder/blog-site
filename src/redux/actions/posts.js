@@ -20,7 +20,6 @@ export const getPosts =
         params: { page, limit: LIMIT, search },
       });
       dispatch(updateStateChange({ posts: data }));
-      console.log(data);
       dispatch(updateStateChange({ total }));
     } finally {
       dispatch(updateStateChange({ loading: false }));

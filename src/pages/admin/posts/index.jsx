@@ -1,5 +1,7 @@
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import {
   changePage,
   controlModal,
@@ -18,11 +20,11 @@ import {
   Col,
   Flex,
   Form,
-  Image,
   Input,
   Modal,
   Pagination,
   Row,
+  Select,
   Upload,
 } from "antd";
 import {
@@ -35,13 +37,15 @@ import Meta from "antd/es/card/Meta";
 
 import { getImage } from "../../../utils/GetImage";
 import Loading from "../../../components/shared/Loading";
-
 import getUserImage from "../../../utils/Image";
 import { LIMIT } from "../../../constants";
+import useFetch from "../../../hooks/useFetch";
 
 import "./AdminPosts.scss";
 
 const PostsPage = () => {
+  const [getCategoryName, setGetCategoryName] = useState();
+  const [sendCtgrId, setCtgrId] = useState();
   const dispatch = useDispatch();
 
   const {
@@ -66,6 +70,7 @@ const PostsPage = () => {
   const handleOk = async () => {
     const values = await form.validateFields();
     values.photo = imageData._id;
+    values.category = sendCtgrId;
     dispatch(sendPosts({ values, selected, activePage, search, form }));
   };
 
@@ -73,9 +78,24 @@ const PostsPage = () => {
     dispatch(controlModal(false));
   };
 
+  const { data: dataCategory } = useFetch({
+    url: `/category`,
+    initialData: {},
+  });
+
+  useEffect(() => {
+    if (dataCategory) {
+      setGetCategoryName(dataCategory.data);
+    }
+  }, [dataCategory]);
+
+  const handleChange = (value) => {
+    setCtgrId(value);
+  };
+
   return (
     <Fragment>
-      <Flex justify="space-between" gap={36} align="center">
+      <Flex justify="space-between" gap={36} align="center" wrap="wrap">
         <h1>Categories ({total})</h1>
         <Input
           value={search}
@@ -87,12 +107,12 @@ const PostsPage = () => {
           Add post
         </Button>
       </Flex>
-      <Row gutter={16}>
+      <Row gutter={[16, 16]}>
         {loading ? (
           <Loading />
         ) : (
           posts.map((post) => (
-            <Col key={post._id} className="gutter-row" span={6}>
+            <Col key={post._id} className="gutter-row" sm={24} md={12} lg={8} xl={6}>
               <Card
                 bordered={true}
                 hoverable={true}
@@ -101,12 +121,15 @@ const PostsPage = () => {
                   marginTop: 16,
                 }}
                 cover={
-                  <Image
-                    alt="example"
-                    width={300}
-                    height={250}
-                    src={getImage(post.photo)}
-                  />
+                  <Link to={`/posts/${post._id}`}>
+                    <LazyLoadImage
+                      effect="blur"
+                      alt="example"
+                      width={300}
+                      height={250}
+                      src={getImage(post.photo)}
+                    />
+                  </Link>
                 }
                 loading={loading}
                 actions={[
@@ -196,10 +219,10 @@ const PostsPage = () => {
               )}
             </div>
           </Upload>
-          {/* <input type="file" onChange={uploadImage}/> */}
+
           <Form.Item
             label="Name"
-            name="name"
+            name="title"
             rules={[
               {
                 required: true,
@@ -222,10 +245,49 @@ const PostsPage = () => {
           >
             <Input.TextArea />
           </Form.Item>
+
+          <Form.Item
+            label="Tags"
+            name="tags"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item
+            label="Category"
+            name="category"
+            rules={[
+              {
+                required: true,
+                message: "Please fill!",
+              },
+            ]}
+          >
+            <Select
+              style={{
+                width: "100%",
+              }}
+              onChange={handleChange}
+            >
+              {getCategoryName?.map((category) => (
+                <Select.Option key={category?.name} value={category?._id}>
+                  {category?.name}
+                </Select.Option>
+              ))}
+            </Select>
+          </Form.Item>
         </Form>
       </Modal>
     </Fragment>
   );
 };
 
-export default PostsPage;
+const MemoPostsPage = memo(PostsPage);
+
+export default MemoPostsPage;

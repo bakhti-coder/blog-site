@@ -1,7 +1,7 @@
-import { Fragment } from "react";
+import { Fragment, memo } from "react";
 import { useParams } from "react-router-dom";
-import useFetch from "../../../hooks/useFetch";
 
+import useFetch from "../../../hooks/useFetch";
 import { ENDPOINTIMG } from "../../../constants";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import Loading from "../../../components/shared/Loading";
@@ -67,4 +67,7 @@ const SinglePosts = () => {
   );
 };
 
-export default SinglePosts;
+const MemoSinglePosts = memo(SinglePosts);
+
+
+export default MemoSinglePosts;

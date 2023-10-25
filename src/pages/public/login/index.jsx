@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import Cookies from "js-cookie";
 
-import { ROLE, TOKEN } from "../../../constants";
-import request from "../../../server";
 import { AuthContext } from "../../../context/AuthContext";
+import { ROLE, TOKEN } from "../../../constants";
+import PageTransitionProvider from "../../../components/page-transition";
+import request from "../../../server";
 
 import "./Login.scss";
-import PageTransitionProvider from "../../../components/page-transition";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -103,4 +103,6 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+const MemoLoginPage = memo(LoginPage);
+
+export default MemoLoginPage;

@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, memo } from "react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
 import ReactModal from "react-modal";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 import * as yup from "yup";
 
 import useFetch from "../../../hooks/useFetch";
 
+import PageTransitionProvider from "../../../components/page-transition";
 import request from "../../../server";
 import getUserImage from "../../../utils/Image";
 import { toast } from "react-toastify";
@@ -13,8 +15,8 @@ import UserPostCard from "../../../components/card/userBlogCard";
 import Loading from "../../../components/shared/Loading";
 
 import "./MyPosts.scss";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import PageTransitionProvider from "../../../components/page-transition";
+import { Fragment } from "react";
+import ReactPaginate from "react-paginate";
 
 const schema = yup
   .object({
@@ -43,6 +45,12 @@ const MyPostsPage = () => {
   const [selected, setSelected] = useState(null);
   const [deleteBtn, setDeleteBtn] = useState(false);
   const [deleteBtnLoad, setDeleteBtnLoad] = useState();
+  const [search, setSearch] = useState("");
+  const [selectedPagination, setSelectedPagination] = useState(1);
+
+  const handlePageClick = (e) => {
+    setSelectedPagination(e.selected + 1);
+  };
 
   const imgFormate = photo?.name.split(".")[1];
   const imgId = photo?._id;
@@ -130,9 +138,15 @@ const MyPostsPage = () => {
     loading: getUserBlogLoading,
     refetch,
   } = useFetch({
-    url: `/post/user`,
+    url: `/post/user?page=${selectedPagination}&limit=2&search=${search}`,
     initialData: {},
   });
+
+  // `/post?page=${selected}&limit=6&search=${search}`,
+
+  const total = getUserBlog?.pagination?.total;
+  const limit = getUserBlog?.pagination?.limit;
+  const allPage = Math.ceil(total / limit);
 
   useEffect(() => {
     if (setUserPost) {
@@ -296,24 +310,65 @@ const MyPostsPage = () => {
       </section>
       <section>
         <div className="container">
+          <input
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+            type="search"
+            placeholder="Search..."
+            className="search__input"
+          />
           {getUserBlogLoading ? (
             <Loading />
           ) : (
-            userPost?.map((posts) => (
-              <UserPostCard
-                key={posts?._id}
-                {...posts}
-                deletePost={deletePost}
-                updatePost={updatePost}
-                deleteBtn={deleteBtn}
-                deleteBtnLoad={deleteBtnLoad}
-              />
-            ))
+            <Fragment>
+              {userPost?.length === 0 ? (
+                <h1 style={{ textAlign: "center", marginBottom: "100px" }}>
+                  No posts
+                </h1>
+              ) : (
+                userPost?.map((posts) => (
+                  <UserPostCard
+                    key={posts?._id}
+                    {...posts}
+                    deletePost={deletePost}
+                    updatePost={updatePost}
+                    deleteBtn={deleteBtn}
+                    deleteBtnLoad={deleteBtnLoad}
+                  />
+                ))
+              )}
+            </Fragment>
           )}
+
+          <div>
+            {allPage !== 1 ? (
+              <ReactPaginate
+                breakLabel="..."
+                nextLabel="Next"
+                previousLabel="Previous"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active"
+                pageRangeDisplayed={2}
+                renderOnZeroPageCount={null}
+                pageCount={allPage}
+                onPageChange={handlePageClick}
+              />
+            ) : null}
+          </div>
         </div>
       </section>
     </PageTransitionProvider>
   );
 };
 
-export default MyPostsPage;
+const MemoMyPostsPage = memo(MyPostsPage);
+
+export default MemoMyPostsPage;

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
@@ -87,7 +87,6 @@ const AccountPage = () => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     const { currentPassword, newPassword } = data;
     try {
       setPasswordEditLoading(true);
@@ -101,7 +100,6 @@ const AccountPage = () => {
       data.newPassword = "";
       data.newPasswordAgain = "";
     } catch (error) {
-      console.log(error);
       setPasswordEditError(error.response.data);
     } finally {
       setPasswordEditLoading(false);
@@ -334,4 +332,6 @@ const AccountPage = () => {
   );
 };
 
-export default AccountPage;
+const MemoAccountPage = memo(AccountPage);
+
+export default MemoAccountPage;

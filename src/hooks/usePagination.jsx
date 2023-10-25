@@ -32,7 +32,6 @@ const useFetchPagination = (url, otherParams) => {
         };
 
         let { data } = await request.get(url, { params, signal });
-        console.log(data);
 
         setData(data);
         setTotal(total);

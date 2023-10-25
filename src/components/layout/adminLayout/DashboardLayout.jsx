@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   LogoutOutlined,
   MenuFoldOutlined,
@@ -27,6 +27,22 @@ const AdminLayout = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 800) {
+        setCollapsed(true);
+      } else {
+        setCollapsed(false);
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <Layout>
@@ -107,4 +123,5 @@ const AdminLayout = () => {
     </Layout>
   );
 };
+
 export default AdminLayout;

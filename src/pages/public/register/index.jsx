@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { toast } from "react-toastify";
@@ -6,12 +6,12 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import Cookies from "js-cookie";
 
+import PageTransitionProvider from "../../../components/page-transition";
 import { AuthContext } from "../../../context/AuthContext";
 import { ROLE, TOKEN } from "../../../constants";
 import request from "../../../server";
 
 import "./Register.scss";
-import PageTransitionProvider from "../../../components/page-transition";
 
 const schema = yup
   .object({
@@ -28,6 +28,7 @@ const schema = yup
       .oneOf([yup.ref("password"), null], "Passwords must match"),
   })
   .required();
+
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { setIsLogin, setRole } = useContext(AuthContext);
@@ -138,4 +139,6 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+const MemoRegisterPage = memo(RegisterPage);
+
+export default MemoRegisterPage;

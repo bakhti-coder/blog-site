@@ -1,4 +1,7 @@
+import { memo } from "react";
+
 import PageTransitionProvider from "../../../components/page-transition";
+
 import "./About.scss";
 
 const AboutPage = () => {
@@ -38,4 +41,6 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage;
+const MemoAboutPage = memo(AboutPage);
+
+export default MemoAboutPage;

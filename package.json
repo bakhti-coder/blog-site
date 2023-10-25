@@ -16,6 +16,7 @@
     "antd": "^5.10.1",
     "aos": "^2.3.4",
     "axios": "^1.5.1",
+    "chart.js": "^4.4.0",
     "cookie": "^0.5.0",
     "framer-motion": "^10.16.4",
     "hamburger-react": "^2.5.0",

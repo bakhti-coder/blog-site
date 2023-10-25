@@ -6,21 +6,24 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { AuthContext } from "../../../context/AuthContext";
 
 import "./Header.scss";
+import { Fragment } from "react";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { isLogin } = useContext(AuthContext);
+  const { isLogin, role } = useContext(AuthContext);
 
   return (
     <header className="header">
       <nav className="container">
         <div className="nav__item">
-          <div>
+          <div style={{ display: "flex", gap: "30px" }}>
             {isLogin ? (
-              <Link className="my__post" to={"/my-posts"}>
-                My posts
-              </Link>
+              <Fragment>
+                <Link className="my__post" to={"/my-posts"}>
+                  My posts
+                </Link>
+              </Fragment>
             ) : (
               <Link to={"/"}>
                 <LazyLoadImage
@@ -29,6 +32,14 @@ const Header = () => {
                   alt="logo"
                 />
               </Link>
+            )}
+
+            {isLogin && role == "admin" ? (
+              <Link className="my__post" to={"/dashboard"}>
+                Dashboard
+              </Link>
+            ) : (
+              ""
             )}
           </div>
           <div className={`nav__item__link ${isOpen && "open"}`}>
