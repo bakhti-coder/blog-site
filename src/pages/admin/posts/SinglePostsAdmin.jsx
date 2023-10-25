@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import useFetch from "../../../hooks/useFetch";
-import { getImage } from "../../../utils/GetImage";
 import Loading from "../../../components/shared/Loading";
 import getUserImage from "../../../utils/Image";
+import { getBlogImage } from "../../../utils/BlogImage";
 
 const SinglePostsAdmin = () => {
   const { id } = useParams();
@@ -23,7 +23,7 @@ const SinglePostsAdmin = () => {
           <LazyLoadImage
             effect="blur"
             className="single__blog__img"
-            src={getImage(singleBlog?.photo)}
+            src={getBlogImage(singleBlog?.photo)}
             alt={singleBlog?.title}
           />
           <div className="single__blog__data">

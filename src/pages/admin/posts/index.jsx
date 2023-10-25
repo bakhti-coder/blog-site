@@ -41,7 +41,7 @@ import { LIMIT } from "../../../constants";
 import useFetch from "../../../hooks/useFetch";
 
 import "./AdminPosts.scss";
-import { getImage } from "../../../utils/GetImage";
+import { getBlogImage } from "../../../utils/BlogImage";
 
 const PostsPage = () => {
   const [getCategoryName, setGetCategoryName] = useState();
@@ -127,7 +127,7 @@ const PostsPage = () => {
                       alt="example"
                       width={300}
                       height={250}
-                      src={getImage(post.photo)}
+                      src={getBlogImage(post.photo)}
                     />
                   </Link>
                 }
@@ -199,7 +199,7 @@ const PostsPage = () => {
                 <LoadingOutlined />
               ) : imageData ? (
                 <img
-                  src={getImage(imageData)}
+                  src={getBlogImage(imageData)}
                   alt="avatar"
                   style={{
                     width: "100%",

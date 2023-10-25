@@ -4,13 +4,13 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 
 
 import "./CategoryCard.scss";
-import { getImage } from "../../../utils/GetImage";
+import { getBlogImage } from "../../../utils/BlogImage";
 
 const CategoryCard = ({ _id, name, description, photo }) => {
   return (
     <Link to={`/category/${_id}`}>
       <div className="category__card">
-        <LazyLoadImage width={40} height={40} effect="blur" src={getImage(photo)} alt={name} />
+        <LazyLoadImage width={40} height={40} effect="blur" src={getBlogImage(photo)} alt={name} />
         <h1>{name}</h1>
         <p>{description}</p>
       </div>

@@ -30,7 +30,7 @@ import {
 } from "../../../redux/actions/category";
 
 import { LIMIT } from "../../../constants";
-import { getImage } from "../../../utils/GetImage";
+import { getBlogImage } from "../../../utils/BlogImage";
 
 const CategoriesPage = () => {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ const CategoriesPage = () => {
       title: "Image",
       dataIndex: "photo",
       key: "photo",
-      render: (data) => <Image height={50} src={getImage(data)} />,
+      render: (data) => <Image height={50} src={getBlogImage(data)} />,
     },
     {
       title: "Name",
@@ -172,7 +172,7 @@ const CategoriesPage = () => {
                 <LoadingOutlined />
               ) : imageData ? (
                 <img
-                  src={getImage(imageData)}
+                  src={getBlogImage(imageData)}
                   alt="avatar"
                   style={{
                     width: "100%",

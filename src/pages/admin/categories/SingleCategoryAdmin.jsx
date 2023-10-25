@@ -3,10 +3,10 @@ import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
 import Loading from "../../../components/shared/Loading";
-import { getImage } from "../../../utils/GetImage";
 import useFetch from "../../../hooks/useFetch";
 
 import "./style.scss";
+import { getBlogImage } from "../../../utils/BlogImage";
 
 const SingleCategoryAdmin = () => {
   const { id } = useParams();
@@ -26,7 +26,7 @@ const SingleCategoryAdmin = () => {
             <div className="single__categgory__admin">
               <LazyLoadImage
                 effect="blur"
-                src={getImage(singleCatewgory?.photo)}
+                src={getBlogImage(singleCatewgory?.photo)}
               />
             </div>
             <h1>{singleCatewgory?.name}</h1>

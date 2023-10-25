@@ -27,7 +27,7 @@ import { LIMIT } from "../../../constants";
 import { Link } from "react-router-dom";
 import getUserImage from "../../../utils/Image";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-import { getImage } from "../../../utils/GetImage";
+import { getBlogImage } from "../../../utils/BlogImage";
 
 const UsersPage = () => {
   const dispatch = useDispatch();
@@ -199,7 +199,7 @@ const UsersPage = () => {
                 <LoadingOutlined />
               ) : imageData ? (
                 <img
-                  src={getImage(imageData)}
+                  src={getBlogImage(imageData)}
                   alt="avatar"
                   style={{
                     width: "100%",
