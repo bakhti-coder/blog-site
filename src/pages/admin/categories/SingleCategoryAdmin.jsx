@@ -2,11 +2,11 @@ import { memo } from "react";
 import { useParams } from "react-router-dom";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 
-import { getImage } from "../../../utils/GetImage";
 import Loading from "../../../components/shared/Loading";
 import useFetch from "../../../hooks/useFetch";
 
 import "./style.scss";
+import { getImage } from "../../../utils/GetImage";
 
 const SingleCategoryAdmin = () => {
   const { id } = useParams();
@@ -40,6 +40,5 @@ const SingleCategoryAdmin = () => {
 };
 
 const MemoSingleCategoryAdmin = memo(SingleCategoryAdmin);
-
 
 export default MemoSingleCategoryAdmin;
